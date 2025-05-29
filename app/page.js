@@ -320,6 +320,9 @@ export default function Home() {
     }
   }, [userAccounts]);
 
+  // Hamburger menu state
+  const [showMobileNav, setShowMobileNav] = useState(false);
+
   // Hide all other UI until role is selected and login/signup is complete
   if (showRoleModal) {
     return (
@@ -410,7 +413,15 @@ export default function Home() {
         <div className="flex items-center gap-2 mb-2 sm:mb-0">
           <span className="text-2xl font-bold tracking-tight text-[#ff5a36]">🍎 Fruits Shop</span>
         </div>
-        <nav className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-[#ff5a36] font-semibold w-full sm:w-auto">
+        {/* Hamburger icon for mobile */}
+        <button
+          className="sm:hidden absolute right-4 top-4 text-3xl text-[#ff5a36] focus:outline-none"
+          onClick={() => setShowMobileNav(true)}
+          aria-label="Open navigation menu"
+        >
+          <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><path stroke="#ff5a36" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <nav className="hidden sm:flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-[#ff5a36] font-semibold w-full sm:w-auto">
           <a className="hover:underline" href="#">
             Home
           </a>
@@ -460,6 +471,82 @@ export default function Home() {
           )}
         </nav>
       </header>
+
+      {/* Mobile Nav Drawer */}
+      {showMobileNav && (
+        <div className="fixed inset-0 z-50 bg-[rgba(255,246,242,0.95)] flex">
+          <div className="w-64 max-w-full bg-white h-full shadow-2xl flex flex-col p-6 relative animate-slideInLeft">
+            <button
+              className="absolute top-4 right-4 text-2xl text-[#ff5a36]"
+              onClick={() => setShowMobileNav(false)}
+              aria-label="Close navigation menu"
+            >
+              &times;
+            </button>
+            <nav className="flex flex-col gap-6 mt-10 text-lg font-semibold text-[#ff5a36]">
+              <a className="hover:underline" href="#" onClick={() => setShowMobileNav(false)}>
+                Home
+              </a>
+              <a className="hover:underline" href="#shop-now" onClick={() => setShowMobileNav(false)}>
+                Shop
+              </a>
+              <button className="hover:underline text-left" onClick={() => { setShowCart(true); setShowMobileNav(false); }}>
+                Bag({cart.length})
+              </button>
+              <button className="hover:underline text-left" onClick={() => { viewOrders(); setShowMobileNav(false); }}>
+                My Orders
+              </button>
+              {isAdmin ? (
+                <button
+                  className="hover:underline text-left"
+                  onClick={() => {
+                    setIsAdmin(false);
+                    setCart([]);
+                    setShowCart(false);
+                    setSearch("");
+                    fetchProducts();
+                    setRole("");
+                    setShowRoleModal(true);
+                    setShowMobileNav(false);
+                  }}
+                >
+                  Logout (Admin)
+                </button>
+              ) : isUserLoggedIn ? (
+                <button
+                  className="hover:underline text-left"
+                  onClick={() => {
+                    setIsUserLoggedIn(false);
+                    setCart([]);
+                    setShowCart(false);
+                    setSearch("");
+                    setUserLogin({ email: '', password: '' });
+                    setUserSignup({ name: '', email: '', password: '', confirmPassword: '' });
+                    setRole("");
+                    setShowRoleModal(true);
+                    setShowMobileNav(false);
+                  }}
+                >
+                  Logout (User)
+                </button>
+              ) : (
+                <button className="hover:underline text-left" onClick={() => { setShowAdminLogin(true); setShowMobileNav(false); }}>Admin</button>
+              )}
+            </nav>
+          </div>
+          {/* Overlay click closes drawer */}
+          <div className="flex-1" onClick={() => setShowMobileNav(false)} />
+          <style>{`
+            @keyframes slideInLeft {
+              from { transform: translateX(-100%); }
+              to { transform: translateX(0); }
+            }
+            .animate-slideInLeft {
+              animation: slideInLeft 0.25s cubic-bezier(0.4,0,0.2,1);
+            }
+          `}</style>
+        </div>
+      )}
 
       {/* Banner - sliding images with right-to-left slide effect (all images visible at once, seamless loop) */}
       <div className="max-w-7xl mx-auto mt-4 sm:mt-8 relative h-48 sm:h-[28rem] px-2 sm:px-4 overflow-hidden rounded-2xl">
