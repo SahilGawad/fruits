@@ -406,6 +406,35 @@ export default function Home() {
     );
   }
 
+  // Admin login/signup modal
+  if (showAdminLogin) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center" style={{ background: 'rgba(255, 246, 242, 0.9)' }}>
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 max-w-sm w-full relative mx-2">
+          <button className="absolute top-2 right-2 text-2xl" onClick={() => setShowAdminLogin(false)}>&times;</button>
+          <h2 className="text-2xl font-bold mb-4 text-[#ff5a36]" style={{ color: '#ff5a36' }}>{adminMode === 'login' ? 'Admin Login' : 'Admin Sign Up'}</h2>
+          {adminMode === 'login' ? (
+            <>
+              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Email" value={adminLogin.email} onChange={e => setAdminLogin({ ...adminLogin, email: e.target.value })} type="email" />
+              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Password" value={adminLogin.password} onChange={e => setAdminLogin({ ...adminLogin, password: e.target.value })} type="password" />
+              <button className="mt-4 bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-6 py-2 rounded font-semibold w-full" onClick={handleAdminLogin}>Login</button>
+              <p className="mt-4 text-center text-[#ff5a36] cursor-pointer underline" onClick={() => setAdminMode('signup')}>Don't have an account? Sign Up</p>
+            </>
+          ) : (
+            <>
+              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Full Name" value={adminSignup.name} onChange={e => setAdminSignup({ ...adminSignup, name: e.target.value })} type="text" />
+              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Email" value={adminSignup.email} onChange={e => setAdminSignup({ ...adminSignup, email: e.target.value })} type="email" />
+              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Password" value={adminSignup.password} onChange={e => setAdminSignup({ ...adminSignup, password: e.target.value })} type="password" />
+              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Confirm Password" value={adminSignup.confirmPassword} onChange={e => setAdminSignup({ ...adminSignup, confirmPassword: e.target.value })} type="password" />
+              <button className="mt-2 bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-6 py-2 rounded font-semibold w-full" onClick={handleAdminSignup}>Sign Up</button>
+              <p className="mt-4 text-center text-[#ff5a36] cursor-pointer underline" onClick={() => setAdminMode('login')}>Back to Login</p>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-[#fafbfc] font-sans">
       {/* Header */}
