@@ -438,8 +438,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#fafbfc] font-sans">
       {/* Header */}
-      <header className="bg-white flex flex-col sm:flex-row items-center justify-between px-4 sm:px-8 py-4 shadow-md sticky top-0 z-10 w-full relative">
-        <div className="flex items-center gap-2 mb-2 sm:mb-0">
+      <header className="bg-white flex items-center justify-between px-4 sm:px-8 py-4 shadow-md sticky top-0 z-10 w-full relative">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <span className="text-2xl font-bold tracking-tight text-[#ff5a36]">🍎 Fruits Shop</span>
         </div>
         {/* Hamburger icon for mobile */}
@@ -450,7 +450,7 @@ export default function Home() {
         >
           <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><path stroke="#ff5a36" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
-        <nav className="hidden sm:flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-[#ff5a36] font-semibold w-full sm:w-auto">
+        <nav className="hidden sm:flex flex-row items-center gap-4 sm:gap-8 text-[#ff5a36] font-semibold w-full sm:w-auto">
           <a className="hover:underline" href="#">
             Home
           </a>
