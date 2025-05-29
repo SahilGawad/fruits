@@ -320,9 +320,6 @@ export default function Home() {
     }
   }, [userAccounts]);
 
-  // Hamburger menu state
-  const [showMobileNav, setShowMobileNav] = useState(false);
-
   // Hide all other UI until role is selected and login/signup is complete
   if (showRoleModal) {
     return (
@@ -350,7 +347,7 @@ export default function Home() {
   if (showUserLogin && !isUserLoggedIn) {
     return (
       <div className="fixed inset-0 flex items-center justify-center" style={{ background: 'rgba(255, 246, 242, 0.9)' }}>
-        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 max-w-sm w-full relative mx-2">
+        <div className="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full relative">
           <button className="absolute top-2 right-2 text-2xl" onClick={() => { setShowUserLogin(false); setShowRoleModal(true); }}>&times;</button>
           <h2 className="text-2xl font-bold mb-4 text-[#ff5a36]">{userMode === 'login' ? 'User Login' : 'User Sign Up'}</h2>
           {userMode === 'login' ? (
@@ -406,51 +403,14 @@ export default function Home() {
     );
   }
 
-  // Admin login/signup modal
-  if (showAdminLogin) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center" style={{ background: 'rgba(255, 246, 242, 0.9)' }}>
-        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 max-w-sm w-full relative mx-2">
-          <button className="absolute top-2 right-2 text-2xl" onClick={() => setShowAdminLogin(false)}>&times;</button>
-          <h2 className="text-2xl font-bold mb-4 text-[#ff5a36]" style={{ color: '#ff5a36' }}>{adminMode === 'login' ? 'Admin Login' : 'Admin Sign Up'}</h2>
-          {adminMode === 'login' ? (
-            <>
-              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Email" value={adminLogin.email} onChange={e => setAdminLogin({ ...adminLogin, email: e.target.value })} type="email" />
-              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Password" value={adminLogin.password} onChange={e => setAdminLogin({ ...adminLogin, password: e.target.value })} type="password" />
-              <button className="mt-4 bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-6 py-2 rounded font-semibold w-full" onClick={handleAdminLogin}>Login</button>
-              <p className="mt-4 text-center text-[#ff5a36] cursor-pointer underline" onClick={() => setAdminMode('signup')}>Don't have an account? Sign Up</p>
-            </>
-          ) : (
-            <>
-              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Full Name" value={adminSignup.name} onChange={e => setAdminSignup({ ...adminSignup, name: e.target.value })} type="text" />
-              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Email" value={adminSignup.email} onChange={e => setAdminSignup({ ...adminSignup, email: e.target.value })} type="email" />
-              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Password" value={adminSignup.password} onChange={e => setAdminSignup({ ...adminSignup, password: e.target.value })} type="password" />
-              <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Confirm Password" value={adminSignup.confirmPassword} onChange={e => setAdminSignup({ ...adminSignup, confirmPassword: e.target.value })} type="password" />
-              <button className="mt-2 bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-6 py-2 rounded font-semibold w-full" onClick={handleAdminSignup}>Sign Up</button>
-              <p className="mt-4 text-center text-[#ff5a36] cursor-pointer underline" onClick={() => setAdminMode('login')}>Back to Login</p>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <main className="min-h-screen bg-[#fafbfc] font-sans">
       {/* Header */}
-      <header className="bg-white flex flex-col sm:flex-row items-center justify-between px-4 sm:px-8 py-4 shadow-md sticky top-0 z-10 w-full">
-        <div className="flex items-center gap-2 mb-2 sm:mb-0">
+      <header className="bg-white flex items-center justify-between px-8 py-4 shadow-md sticky top-0 z-10">
+        <div className="flex items-center gap-2">
           <span className="text-2xl font-bold tracking-tight text-[#ff5a36]">🍎 Fruits Shop</span>
         </div>
-        {/* Hamburger icon for mobile */}
-        <button
-          className="sm:hidden absolute right-4 top-4 text-3xl text-[#ff5a36] focus:outline-none"
-          onClick={() => setShowMobileNav(true)}
-          aria-label="Open navigation menu"
-        >
-          <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><path stroke="#ff5a36" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-        <nav className="hidden sm:flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-[#ff5a36] font-semibold w-full sm:w-auto">
+        <nav className="flex items-center gap-8 text-[#ff5a36] font-semibold">
           <a className="hover:underline" href="#">
             Home
           </a>
@@ -501,86 +461,10 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Mobile Nav Drawer */}
-      {showMobileNav && (
-        <div className="fixed inset-0 z-50 bg-[rgba(255,246,242,0.95)] flex">
-          <div className="w-64 max-w-full bg-white h-full shadow-2xl flex flex-col p-6 relative animate-slideInLeft">
-            <button
-              className="absolute top-4 right-4 text-2xl text-[#ff5a36]"
-              onClick={() => setShowMobileNav(false)}
-              aria-label="Close navigation menu"
-            >
-              &times;
-            </button>
-            <nav className="flex flex-col gap-6 mt-10 text-lg font-semibold text-[#ff5a36]">
-              <a className="hover:underline" href="#" onClick={() => setShowMobileNav(false)}>
-                Home
-              </a>
-              <a className="hover:underline" href="#shop-now" onClick={() => setShowMobileNav(false)}>
-                Shop
-              </a>
-              <button className="hover:underline text-left" onClick={() => { setShowCart(true); setShowMobileNav(false); }}>
-                Bag({cart.length})
-              </button>
-              <button className="hover:underline text-left" onClick={() => { viewOrders(); setShowMobileNav(false); }}>
-                My Orders
-              </button>
-              {isAdmin ? (
-                <button
-                  className="hover:underline text-left"
-                  onClick={() => {
-                    setIsAdmin(false);
-                    setCart([]);
-                    setShowCart(false);
-                    setSearch("");
-                    fetchProducts();
-                    setRole("");
-                    setShowRoleModal(true);
-                    setShowMobileNav(false);
-                  }}
-                >
-                  Logout (Admin)
-                </button>
-              ) : isUserLoggedIn ? (
-                <button
-                  className="hover:underline text-left"
-                  onClick={() => {
-                    setIsUserLoggedIn(false);
-                    setCart([]);
-                    setShowCart(false);
-                    setSearch("");
-                    setUserLogin({ email: '', password: '' });
-                    setUserSignup({ name: '', email: '', password: '', confirmPassword: '' });
-                    setRole("");
-                    setShowRoleModal(true);
-                    setShowMobileNav(false);
-                  }}
-                >
-                  Logout (User)
-                </button>
-              ) : (
-                <button className="hover:underline text-left" onClick={() => { setShowAdminLogin(true); setShowMobileNav(false); }}>Admin</button>
-              )}
-            </nav>
-          </div>
-          {/* Overlay click closes drawer */}
-          <div className="flex-1" onClick={() => setShowMobileNav(false)} />
-          <style>{`
-            @keyframes slideInLeft {
-              from { transform: translateX(-100%); }
-              to { transform: translateX(0); }
-            }
-            .animate-slideInLeft {
-              animation: slideInLeft 0.25s cubic-bezier(0.4,0,0.2,1);
-            }
-          `}</style>
-        </div>
-      )}
-
       {/* Banner - sliding images with right-to-left slide effect (all images visible at once, seamless loop) */}
-      <div className="max-w-7xl mx-auto mt-4 sm:mt-8 relative h-48 sm:h-[28rem] px-2 sm:px-4 overflow-hidden rounded-2xl">
+      <div className="max-w-7xl mx-auto mt-8 relative h-[28rem] px-4 overflow-hidden rounded-2xl">
         <div
-          className="absolute top-0 left-0 flex h-48 sm:h-[28rem] w-full"
+          className="absolute top-0 left-0 flex h-[28rem] w-full"
           style={{
             width: '200%', // Double the width for seamless loop
             animation: 'marquee 12s linear infinite',
@@ -592,7 +476,7 @@ export default function Home() {
               key={idx}
               src={img}
               alt="fruits banner"
-              className="h-48 sm:h-[28rem] object-cover rounded-2xl flex-shrink-0"
+              className="h-[28rem] object-cover rounded-2xl flex-shrink-0"
               style={{ width: `${100 / bannerImages.length}%` }}
             />
           ))}
@@ -606,13 +490,13 @@ export default function Home() {
       </div>
 
       {/* Shop Now Title */}
-      <h1 id="shop-now" className="text-3xl sm:text-5xl font-bold text-center text-[#ff5a36] mt-8 sm:mt-12 mb-4 sm:mb-6">Shop Now</h1>
+      <h1 id="shop-now" className="text-5xl font-bold text-center text-[#ff5a36] mt-12 mb-6">Shop Now</h1>
 
       {/* Admin Panel (Add Product) - now shown below Shop Now if admin */}
       {isAdmin && (
-        <div className="max-w-2xl mx-auto mb-8 sm:mb-10 px-2 sm:px-0">
-          <section className="bg-white rounded-lg shadow p-4 sm:p-6">
-            <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-[#ff5a36]">🔐 Admin - Add Product</h2>
+        <div className="max-w-2xl mx-auto mb-10">
+          <section className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-xl font-bold mb-3 text-[#ff5a36]">🔐 Admin - Add Product</h2>
             <div className="flex flex-col gap-2">
               <input className="rounded px-2 py-1 border-2 border-transparent text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Name" value={adminForm.name} onChange={e => setAdminForm({ ...adminForm, name: e.target.value })} />
               <input className="rounded px-2 py-1 border-2 border-transparent text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Price" type="number" value={adminForm.price} onChange={e => setAdminForm({ ...adminForm, price: e.target.value })} />
@@ -633,10 +517,10 @@ export default function Home() {
       )}
 
       {/* Search Bar */}
-      <div className="flex justify-center mb-4 sm:mb-6 px-2">
-        <div className="flex items-center bg-white rounded-full shadow px-2 sm:px-4 py-2 w-full max-w-xl">
+      <div className="flex justify-center mb-6">
+        <div className="flex items-center bg-white rounded-full shadow px-4 py-2 w-full max-w-xl">
           <input
-            className="flex-1 outline-none px-2 sm:px-3 py-2 rounded-full text-base sm:text-lg"
+            className="flex-1 outline-none px-3 py-2 rounded-full text-lg"
             placeholder="Search fruits..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -644,33 +528,51 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8 px-2 sm:px-4">
-        {filteredProducts.map((p, idx) => (
+      {/* Book Modal/Drawer */}
+      {showBook && bookProduct && (
+        <>
+          {/* Book Drawer - lower z-index, right side, full height */}
           <div
-            key={p.id || idx}
-            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition p-4 sm:p-6 flex flex-col items-center border-2 border-transparent hover:border-[#ff5a36]"
+            className={
+              `fixed inset-y-0 right-0 z-40 h-full w-full max-w-md bg-white shadow-xl flex flex-col transform transition-transform duration-300 ${showBook ? 'translate-x-0' : 'translate-x-full'}`
+            }
+            style={{ willChange: 'transform' }}
           >
-            <img src={getImageUrl(p.image_url)} alt={p.name} className="w-full h-32 sm:h-40 object-cover rounded-xl mb-3 sm:mb-4" />
-            <h4 className="font-bold text-lg sm:text-xl text-[#ff5a36] mb-1 text-center">{p.name}</h4>
-            <p className="text-[#ff5a36] font-bold text-base sm:text-lg mb-2 sm:mb-4 text-center">₹{p.price}</p>
-            <div className="flex gap-2 w-full">
-              <button
-                className="bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-3 sm:px-4 py-2 rounded font-semibold flex-1"
-                onClick={() => addToCart(p)}
-              >
-                Add to Cart
-              </button>
-            </div>
+            <button
+              className="absolute top-4 right-4 text-2xl"
+              onClick={() => setShowBook(false)}
+              aria-label="Close book modal"
+            >
+              &times;
+            </button>
+            <button
+              className="absolute top-4 left-4 p-2"
+              onClick={() => setShowBook(false)}
+              aria-label="Back to main page"
+            >
+              <img
+                src="/back.svg"
+                alt="Back"
+                className="w-6 h-6"
+                style={{ transform: 'scaleX(-1)', filter: 'invert(41%) sepia(99%) saturate(749%) hue-rotate(349deg) brightness(101%) contrast(101%)' }}
+              />
+            </button>
+            <h2 className="text-2xl font-bold mb-4 text-[#36a2ff] mt-8 ml-8">Book: {bookProduct.name}</h2>
+            <form className="flex-1 overflow-y-auto px-8 flex flex-col gap-4" onSubmit={handleBookSubmit}>
+              <input className="rounded px-3 py-2 border" placeholder="Full Name" value={bookForm.name} onChange={e => setBookForm({ ...bookForm, name: e.target.value })} required />
+              <input className="rounded px-3 py-2 border" placeholder="Email" type="email" value={bookForm.email} onChange={e => setBookForm({ ...bookForm, email: e.target.value })} required />
+              <input className="rounded px-3 py-2 border" placeholder="Phone" type="tel" value={bookForm.phone} onChange={e => setBookForm({ ...bookForm, phone: e.target.value })} required />
+              <textarea className="rounded px-3 py-2 border" placeholder="Address" value={bookForm.address} onChange={e => setBookForm({ ...bookForm, address: e.target.value })} required />
+              <button type="submit" className="bg-[#36a2ff] hover:bg-[#369aff] text-white px-6 py-3 rounded font-semibold w-full text-lg mt-4">Book Now</button>
+            </form>
           </div>
-        ))}
-      </div>
+        </>
+      )}
 
-      {/* Responsive adjustments for drawers and modals */}
       {/* Cart Drawer - top right, above Book drawer */}
       {showCart && (
         <div
-          className="fixed top-2 sm:top-4 right-2 sm:right-4 z-50 w-full max-w-xs sm:w-80 bg-white shadow-2xl rounded-xl flex flex-col border border-[#ff5a36]"
+          className="fixed top-4 right-4 z-50 w-80 bg-white shadow-2xl rounded-xl flex flex-col border border-[#ff5a36]"
           style={{ minHeight: '120px', maxHeight: '80vh' }}
         >
           <button
@@ -724,10 +626,11 @@ export default function Home() {
           </div>
         </div>
       )}
+
       {/* Orders Drawer - top right, above Book drawer, like Cart */}
       {showOrders && (
         <div
-          className="fixed top-2 sm:top-4 right-2 sm:right-4 z-50 w-full max-w-xs sm:w-80 bg-white shadow-2xl rounded-xl flex flex-col border border-[#ff5a36]"
+          className="fixed top-4 right-4 z-50 w-80 bg-white shadow-2xl rounded-xl flex flex-col border border-[#ff5a36]"
           style={{ minHeight: '120px', maxHeight: '80vh' }}
         >
           <button
@@ -763,101 +666,33 @@ export default function Home() {
           </div>
         </div>
       )}
-      {/* Book Modal/Drawer */}
-      {showBook && bookProduct && (
-        <div
-          className={`fixed inset-y-0 right-0 z-40 h-full w-full max-w-md bg-white shadow-xl flex flex-col transform transition-transform duration-300 ${showBook ? 'translate-x-0' : 'translate-x-full'}`}
-          style={{ willChange: 'transform' }}
-        >
-          <button
-            className="absolute top-4 right-4 text-2xl"
-            onClick={() => setShowBook(false)}
-            aria-label="Close book modal"
+
+      {/* Product Grid */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-4">
+        {filteredProducts.map((p, idx) => (
+          <div
+            key={p.id || idx}
+            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition p-6 flex flex-col items-center border-2 border-transparent hover:border-[#ff5a36]"
           >
-            &times;
-          </button>
-          <button
-            className="absolute top-4 left-4 p-2"
-            onClick={() => setShowBook(false)}
-            aria-label="Back to main page"
-          >
-            <img
-              src="/back.svg"
-              alt="Back"
-              className="w-6 h-6"
-              style={{ transform: 'scaleX(-1)', filter: 'invert(41%) sepia(99%) saturate(749%) hue-rotate(349deg) brightness(101%) contrast(101%)' }}
-            />
-          </button>
-          <h2 className="text-2xl font-bold mb-4 text-[#36a2ff] mt-8 ml-8">Book: {bookProduct.name}</h2>
-          <form className="flex-1 overflow-y-auto px-8 flex flex-col gap-4" onSubmit={handleBookSubmit}>
-            <input className="rounded px-3 py-2 border" placeholder="Full Name" value={bookForm.name} onChange={e => setBookForm({ ...bookForm, name: e.target.value })} required />
-            <input className="rounded px-3 py-2 border" placeholder="Email" type="email" value={bookForm.email} onChange={e => setBookForm({ ...bookForm, email: e.target.value })} required />
-            <input className="rounded px-3 py-2 border" placeholder="Phone" type="tel" value={bookForm.phone} onChange={e => setBookForm({ ...bookForm, phone: e.target.value })} required />
-            <textarea className="rounded px-3 py-2 border" placeholder="Address" value={bookForm.address} onChange={e => setBookForm({ ...bookForm, address: e.target.value })} required />
-            <button type="submit" className="bg-[#36a2ff] hover:bg-[#369aff] text-white px-6 py-3 rounded font-semibold w-full text-lg mt-4">Book Now</button>
-          </form>
-        </div>
-      )}
-      {/* User/Admin Login/Signup Modals: add px-2 for mobile */}
-      {showUserLogin && !isUserLoggedIn && (
-        <div className="fixed inset-0 flex items-center justify-center" style={{ background: 'rgba(255, 246, 242, 0.9)' }}>
-          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 max-w-sm w-full relative mx-2">
-            <button className="absolute top-2 right-2 text-2xl" onClick={() => { setShowUserLogin(false); setShowRoleModal(true); }}>&times;</button>
-            <h2 className="text-2xl font-bold mb-4 text-[#ff5a36]">{userMode === 'login' ? 'User Login' : 'User Sign Up'}</h2>
-            {userMode === 'login' ? (
-              <>
-                <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Email" value={userLogin.email} onChange={e => setUserLogin({ ...userLogin, email: e.target.value })} type="email" />
-                <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Password" value={userLogin.password} onChange={e => setUserLogin({ ...userLogin, password: e.target.value })} type="password" />
-                <button className="mt-2 bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-6 py-2 rounded font-semibold w-full" onClick={() => {
-                  if (!userLogin.email || !userLogin.password) {
-                    alert('Please enter email and password');
-                    return;
-                  }
-                  const found = userAccounts.find(u => u.email === userLogin.email && u.password === userLogin.password);
-                  if (found) {
-                    setIsUserLoggedIn(true);
-                    setShowUserLogin(false);
-                  } else {
-                    alert('Account not found. Please sign up.');
-                    setUserMode('signup');
-                  }
-                }}>Login</button>
-                <p className="mt-4 text-center text-[#ff5a36] cursor-pointer underline" onClick={() => setUserMode('signup')}>Don't have an account? Sign Up</p>
-              </>
-            ) : (
-              <>
-                <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Full Name" value={userSignup.name} onChange={e => setUserSignup({ ...userSignup, name: e.target.value })} type="text" />
-                <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Email" value={userSignup.email} onChange={e => setUserSignup({ ...userSignup, email: e.target.value })} type="email" />
-                <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Password" value={userSignup.password} onChange={e => setUserSignup({ ...userSignup, password: e.target.value })} type="password" />
-                <input className="w-full px-3 py-2 border-2 border-transparent rounded mb-4 text-[#ff5a36] placeholder:text-gray-400 bg-white focus:border-[#ff5a36] focus:ring-2 focus:ring-[#ff5a36] outline-none" placeholder="Confirm Password" value={userSignup.confirmPassword} onChange={e => setUserSignup({ ...userSignup, confirmPassword: e.target.value })} type="password" />
-                <button className="mt-2 bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-6 py-2 rounded font-semibold w-full" onClick={() => {
-                  if (!userSignup.name || !userSignup.email || !userSignup.password || !userSignup.confirmPassword) {
-                    alert('Fill all fields');
-                    return;
-                  }
-                  if (userSignup.password !== userSignup.confirmPassword) {
-                    alert('Passwords do not match');
-                    return;
-                  }
-                  if (userAccounts.find(u => u.email === userSignup.email)) {
-                    alert('Account already exists. Please login.');
-                    setUserMode('login');
-                    return;
-                  }
-                  setUserAccounts(prev => [...prev, { name: userSignup.name, email: userSignup.email, password: userSignup.password }]);
-                  alert('User registered! Now login.');
-                  setUserMode('login');
-                  setUserSignup({ name: '', email: '', password: '', confirmPassword: '' });
-                }}>Sign Up</button>
-                <p className="mt-4 text-center text-[#ff5a36] cursor-pointer underline" onClick={() => setUserMode('login')}>Back to Login</p>
-              </>
-            )}
+            <img src={getImageUrl(p.image_url)} alt={p.name} className="w-full h-40 object-cover rounded-xl mb-4" />
+            <h4 className="font-bold text-xl text-[#ff5a36] mb-1 text-center">{p.name}</h4>
+            <p className="text-[#ff5a36] font-bold text-lg mb-4 text-center">₹{p.price}</p>
+            <div className="flex gap-2 w-full">
+              <button
+                className="bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-4 py-2 rounded font-semibold flex-1"
+                onClick={() => addToCart(p)}
+              >
+                Add to Cart
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
+
+      {/* Admin Login/Signup Modal */}
       {showAdminLogin && (
         <div className="fixed inset-0 flex items-center justify-center" style={{ background: 'rgba(255, 246, 242, 0.9)' }}>
-          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 max-w-sm w-full relative mx-2">
+          <div className="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full relative">
             <button className="absolute top-2 right-2 text-2xl" onClick={() => setShowAdminLogin(false)}>&times;</button>
             <h2 className="text-2xl font-bold mb-4 text-[#ff5a36]" style={{ color: '#ff5a36' }}>{adminMode === 'login' ? 'Admin Login' : 'Admin Sign Up'}</h2>
             {adminMode === 'login' ? (
@@ -880,28 +715,9 @@ export default function Home() {
           </div>
         </div>
       )}
-      {/* Role selection modal: add px-2 for mobile */}
-      {showRoleModal && (
-        <div className="fixed inset-0 flex items-center justify-center" style={{ background: 'rgba(255, 246, 242, 0.9)' }}>
-          <div className="bg-white rounded-xl shadow-lg p-8 max-w-xs w-full flex flex-col items-center mx-2">
-            <h2 className="text-2xl font-bold mb-6 text-[#ff5a36]">Welcome! Who are you?</h2>
-            <button
-              className="bg-[#ff5a36] hover:bg-[#ff7a36] text-white px-6 py-3 rounded font-semibold w-full mb-4 text-lg"
-              onClick={() => { setRole("user"); setShowRoleModal(false); setShowUserLogin(true); }}
-            >
-              I am a User
-            </button>
-            <button
-              className="bg-[#36a2ff] hover:bg-[#369aff] text-white px-6 py-3 rounded font-semibold w-full text-lg"
-              onClick={() => { setRole("admin"); setShowRoleModal(false); setShowAdminLogin(true); }}
-            >
-              I am an Admin
-            </button>
-          </div>
-        </div>
-      )}
+
       {/* Footer */}
-      <footer className="bg-white text-[#ff5a36] text-center py-4 mt-8 font-semibold text-base sm:text-lg">
+      <footer className="bg-white text-[#ff5a36] text-center py-4 mt-8 font-semibold text-lg">
         <span>© {new Date().getFullYear()} Fruits Shop</span>
       </footer>
     </main>
